@@ -23,6 +23,7 @@ setup(
     include_package_data=True,
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
+    entry_points={"console_scripts": ["contact-reason=gorgias_ml.cli.cli:main"]},
     install_requires=requirements,
     tests_require=TEST_DEPS,
     extras_require={"test": TEST_DEPS},
