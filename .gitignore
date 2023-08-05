@@ -1,2 +1,4 @@
 .idea
 data
+src/.ipynb_checkpoints
+src/__pycache__
