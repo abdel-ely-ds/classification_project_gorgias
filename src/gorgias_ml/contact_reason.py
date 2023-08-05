@@ -43,7 +43,7 @@ class ContactReason:
 
     @staticmethod
     def _build_model() -> BaseEstimator:
-        return TicketMessageSimilarityBasedClassifier
+        return TicketMessageSimilarityBasedClassifier()
 
     @staticmethod
     def _build_processing_pipe() -> Pipeline:
