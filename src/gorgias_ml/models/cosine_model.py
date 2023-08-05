@@ -10,10 +10,10 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
     """Cosine similarity based classifier"""
 
     def __init__(
-            self,
-            target_col_name: str = cst.TARGET,
-            features_col_name: str = cst.FEATURES,
-            prediction_col_name: str = cst.PREDICTION,
+        self,
+        target_col_name: str = cst.TARGET,
+        features_col_name: str = cst.FEATURES,
+        prediction_col_name: str = cst.PREDICTION,
     ):
         self._classes = None
         self.is_fitted_ = False
@@ -33,13 +33,13 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
         :return: class name
         """
         return max(
-            self._classes, key=lambda cr: sp.spatial.distance.cosine(emb, self._centroids[cr])
+            self._classes,
+            key=lambda cr: sp.spatial.distance.cosine(emb, self._centroids[cr]),
         )
 
     @staticmethod
     def _compute_mean(arrays):
         return np.mean(np.vstack(arrays), axis=1)
-
 
     def fit(self, x: pd.DataFrame, y: pd.Series) -> BaseEstimator:
         """
@@ -49,11 +49,13 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
         :return: self
         """
         if y is None:
-            ValueError('requires y to be passed, but the target y is None')
+            ValueError("requires y to be passed, but the target y is None")
 
         self._classes = y.to_list()
 
-        self._centroids = x.groupby(self.target_col_name)[self.features_col_name].apply(self._compute_mean)
+        self._centroids = x.groupby(self.target_col_name)[self.features_col_name].apply(
+            self._compute_mean
+        )
 
         self.is_fitted_ = True
 
@@ -61,7 +63,7 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
 
     def predict(self, x: pd.DataFrame):
         if not self.is_fitted_:
-            ValueError('the model is not fitted yet')
+            ValueError("the model is not fitted yet")
 
         x_copy = x.copy()
         x_copy[self.prediction_col_name] = x_copy[self.features_col_name].swifter.apply(
