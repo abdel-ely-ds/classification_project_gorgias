@@ -10,10 +10,10 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
     """Cosine similarity based classifier"""
 
     def __init__(
-        self,
-        target_col_name: str = cst.TARGET,
-        features_col_name: str = cst.FEATURES,
-        prediction_col_name: str = cst.PREDICTION,
+            self,
+            target_col_name: str = cst.TARGET,
+            features_col_name: str = cst.FEATURES,
+            prediction_col_name: str = cst.PREDICTION,
     ):
         self._classes = None
         self.is_fitted_ = False
