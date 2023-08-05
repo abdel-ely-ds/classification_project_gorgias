@@ -95,9 +95,8 @@ class ContactReason:
 
         self.logger.info(f"artifacts saved successfully to {output_dir}")
 
-    @staticmethod
     def save_predictions(
-        predictions: pd.DataFrame, output_dir: str = cst.PREDICTIONS_DIRECTORY
+        self, predictions: pd.DataFrame, output_dir: str = cst.PREDICTIONS_DIRECTORY
     ) -> None:
         current_datetime = datetime.now().strftime("%Y%m%d%H%M")
 
@@ -105,6 +104,8 @@ class ContactReason:
             os.path.join(output_dir, cst.PREDICTION_NAME + f"_{current_datetime}.csv"),
             index=False,
         )
+
+        self.logger.info(f"predictions saved successfully to {output_dir}")
 
     def load_artifacts(
         self,
