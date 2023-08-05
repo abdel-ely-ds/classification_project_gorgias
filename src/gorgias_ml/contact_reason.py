@@ -1,17 +1,16 @@
 import logging
 import os
+from datetime import datetime
 
 import joblib
 import pandas as pd
 from sklearn.base import BaseEstimator
-from datetime import datetime
-
 from sklearn.pipeline import Pipeline
 
+import gorgias_ml.constants as cst
+from gorgias_ml.models.cosine_model import TicketMessageSimilarityBasedClassifier
 from gorgias_ml.transfomers.cleaners import EmbeddingsCleaner
 from gorgias_ml.transfomers.encoders import TicketMessageAverageEncoder
-from gorgias_ml.models.cosine_model import TicketMessageSimilarityBasedClassifier
-import gorgias_ml.constants as cst
 
 
 class ContactReason:
