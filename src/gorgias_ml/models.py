@@ -2,7 +2,7 @@ import pandas as pd
 import scipy as sp
 import swifter
 from sklearn.base import BaseEstimator
-
+import numpy as np
 import gorgias_ml.constants as cst
 
 
@@ -18,7 +18,7 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
         self._classes = None
         self.is_fitted_ = False
         self.target_col_name = target_col_name
-        self.feature_col_name = features_col_name
+        self.features_col_name = features_col_name
         self.prediction_col_name = prediction_col_name
         self._centroids = None
 
@@ -33,8 +33,13 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
         :return: class name
         """
         return max(
-            self._classes, key=lambda cr: sp.distance.cosine(emb, self._centroids[cr])
+            self._classes, key=lambda cr: sp.spatial.distance.cosine(emb, self._centroids[cr])
         )
+
+    @staticmethod
+    def _compute_mean(arrays):
+        return np.mean(np.vstack(arrays), axis=1)
+
 
     def fit(self, x: pd.DataFrame, y: pd.Series) -> BaseEstimator:
         """
@@ -48,18 +53,18 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
 
         self._classes = y.to_list()
 
-        self._centroids = (
-            x.groupby(self.target_col_name)[self.feature_col_name]
-            .mean(axis=1)
-            .to_dict()
-        )
+        self._centroids = x.groupby(self.target_col_name)[self.features_col_name].apply(self._compute_mean)
+
         self.is_fitted_ = True
 
         return self
 
     def predict(self, x: pd.DataFrame):
+        if not self.is_fitted_:
+            ValueError('the model is not fitted yet')
+
         x_copy = x.copy()
-        x_copy[self.prediction_col_name] = x_copy[self.feature_col_name].swifter.apply(
+        x_copy[self.prediction_col_name] = x_copy[self.features_col_name].swifter.apply(
             lambda emb: self._predict(emb)
         )
         return x_copy

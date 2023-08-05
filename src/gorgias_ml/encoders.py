@@ -11,7 +11,7 @@ class TicketMessageAverageEncoder(BaseEstimator, TransformerMixin):
     It adds a new column features.
     """
 
-    def __int__(self, col_name=cst.EMBEDDINGS_COL_NAME, features_name=cst.FEATURES):
+    def __init__(self, col_name=cst.EMBEDDINGS_COL_NAME, features_name=cst.FEATURES):
         self.col_name = col_name
         self.features_name = features_name
 
