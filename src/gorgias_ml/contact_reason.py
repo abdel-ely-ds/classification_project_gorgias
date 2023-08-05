@@ -8,9 +8,9 @@ from datetime import datetime
 
 from sklearn.pipeline import Pipeline
 
-from cleaners import EmbeddingsCleaner
-from encoders import TicketMessageAverageEncoder
-from gorgias_ml.models import TicketMessageSimilarityBasedClassifier
+from gorgias_ml.transfomers.cleaners import EmbeddingsCleaner
+from gorgias_ml.transfomers.encoders import TicketMessageAverageEncoder
+from gorgias_ml.models.cosine_model import TicketMessageSimilarityBasedClassifier
 import gorgias_ml.constants as cst
 
 
