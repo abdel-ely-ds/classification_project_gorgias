@@ -61,14 +61,11 @@ class ContactReason:
         self.logger.info("training finished!")
 
     def predict(self, df: pd.DataFrame) -> pd.DataFrame:
-        if df[cst.FEATURES].isna().sum() > 0:
-            ValueError("features should not be none")
-
         df_copy = df.copy()
         x = self._processing_pipe.transform(df_copy)
-        predictions = self._model.predict(x)
+        x = self._model.predict(x)
         return pd.DataFrame.from_dict(
-            {cst.ACCOUNT_ID: df[cst.ACCOUNT_ID], cst.PREDICTION: predictions}
+            {cst.ACCOUNT_ID: x[cst.ACCOUNT_ID], cst.PREDICTION: x[cst.PREDICTION]}
         )
 
     def save_artifacts(self, output_dir: str = cst.ARTIFACTS_DIRECTORY) -> None:

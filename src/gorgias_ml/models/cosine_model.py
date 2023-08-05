@@ -27,7 +27,7 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
     def centroids(self) -> dict[str, list[float]]:
         return self._centroids
 
-    def _predict(self, emb) -> str:
+    def _predict(self, emb: np.array) -> str:
         """
         It computes the cosine similarity between message and centroid of each class and predicts argmax
         :param emb: embeddings of the message
@@ -39,8 +39,8 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
         )
 
     @staticmethod
-    def _compute_mean(arrays):
-        return np.mean(np.vstack(arrays), axis=1)
+    def _compute_mean(arrays: pd.Series) -> np.array:
+        return np.mean(np.vstack(arrays.tolist()), axis=0)
 
     def fit(self, x: pd.DataFrame, y: pd.Series) -> BaseEstimator:
         """
@@ -54,15 +54,17 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
 
         self._classes = y.to_list()
 
+        assert (x.features.apply(lambda z: z.shape[0]) == 384).mean() == 1.0
+
         self._centroids = x.groupby(self.target_col_name)[self.features_col_name].apply(
             self._compute_mean
-        )
+        ).to_dict()
 
         self.is_fitted_ = True
 
         return self
 
-    def predict(self, x: pd.DataFrame):
+    def predict(self, x: pd.DataFrame) -> pd.DataFrame:
         if not self.is_fitted_:
             ValueError("the model is not fitted yet")
 
