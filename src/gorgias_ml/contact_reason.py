@@ -114,8 +114,16 @@ class ContactReason:
         from_models_dir: str = cst.MODELS_DIRECTORY,
         from_pipelines_dir: str = cst.PIPELINES_DIRECTORY,
     ) -> None:
-        model_path = os.listdir(os.path.join(from_dir, from_models_dir))[0]
-        pipeline_path = os.listdir(os.path.join(from_dir, from_pipelines_dir))[0]
+        model_path = [
+            file
+            for file in os.listdir(os.path.join(from_dir, from_models_dir))
+            if not file.startswith(".")
+        ][0]
+        pipeline_path = [
+            file
+            for file in os.listdir(os.path.join(from_dir, from_pipelines_dir))
+            if not file.startswith(".")
+        ][0]
         self._model = joblib.load(os.path.join(from_dir, from_models_dir, model_path))
         self._processing_pipe = joblib.load(
             os.path.join(from_dir, from_pipelines_dir, pipeline_path)

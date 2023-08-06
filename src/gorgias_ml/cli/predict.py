@@ -11,11 +11,15 @@ import gorgias_ml.constants as cst
 @click.command()
 @click.option("--data-dir", type=str, required=True)
 @click.option("--output-dir", type=str, required=True)
-@click.option("--from-dir", type=str, required=False)
-@click.option("--from-models-dir", type=str, required=False)
-@click.option("--from-pipelines-dir", type=str, required=False)
+@click.option("--from-dir", type=str, default=cst.ARTIFACTS_DIRECTORY, required=False)
+@click.option(
+    "--from-models-dir", type=str, default=cst.MODELS_DIRECTORY, required=False
+)
+@click.option(
+    "--from-pipelines-dir", type=str, default=cst.PIPELINES_DIRECTORY, required=False
+)
 @click.option("--df-filename", type=str, required=True)
-@click.option("--score", type=bool, required=False)
+@click.option("--score", type=bool, default=True, required=False)
 def predict(
     data_dir: str,
     output_dir: str,
@@ -29,7 +33,7 @@ def predict(
 
     contact_reason = ContactReason()
     df = pd.read_parquet(os.path.join(data_dir, df_filename))
-
+    df = df.sample(10000)
     contact_reason.load_artifacts(
         from_dir=from_dir,
         from_models_dir=from_models_dir,
@@ -44,8 +48,10 @@ def predict(
             test_truth, test_preds, average="weighted"
         )
 
-        click.echo(f"{precision=}")
-        click.echo(f"{recall=}")
-        click.echo(f"{f1_score=}")
+        click.echo(
+            f"Weighted precision: {precision:.2f} \n"
+            f"Weighted recall: {recall:.2f} \n"
+            f"Weighted f1_score: {f1_score:.2f}"
+        )
 
     contact_reason.save_predictions(predictions=predictions, output_dir=output_dir)
