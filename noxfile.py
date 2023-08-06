@@ -1,7 +1,7 @@
 import nox
 from nox.sessions import Session
 
-locations = "src", "tests", "noxfile.py"
+locations = "src", "tests", "api", "noxfile.py"
 nox.options.sessions = "tests", "blacken", "build"
 nox.options.stop_on_first_error = True
 
