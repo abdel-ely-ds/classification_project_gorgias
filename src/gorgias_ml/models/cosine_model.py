@@ -56,9 +56,11 @@ class TicketMessageSimilarityBasedClassifier(BaseEstimator):
 
         assert (x.features.apply(lambda z: z.shape[0]) == 384).mean() == 1.0
 
-        self._centroids = x.groupby(self.target_col_name)[self.features_col_name].apply(
-            self._compute_mean
-        ).to_dict()
+        self._centroids = (
+            x.groupby(self.target_col_name)[self.features_col_name]
+            .apply(self._compute_mean)
+            .to_dict()
+        )
 
         self.is_fitted_ = True
 
