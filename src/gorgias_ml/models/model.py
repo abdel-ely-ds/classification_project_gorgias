@@ -16,7 +16,13 @@ class Distances(enum.Enum):
 
 
 class TicketMessageClassifier(BaseEstimator):
-    """Cosine similarity based classifier"""
+    """
+    This classifier a mix of knn and kmeans.
+
+    If centroid_approach is set, we compute the centroid of each class in the training data.
+    then for inference we compute the most similar or nearst neighbors (depending) on the metric
+    and use majority voting.
+    """
 
     def __init__(
         self,
