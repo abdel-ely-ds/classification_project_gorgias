@@ -8,7 +8,7 @@ from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
 import gorgias_ml.constants as cst
-from gorgias_ml.models.cosine_model import TicketMessageSimilarityBasedClassifier
+from gorgias_ml.models.model import TicketMessageClassifier
 from gorgias_ml.transfomers.cleaners import EmbeddingsCleaner
 from gorgias_ml.transfomers.encoders import TicketMessageAverageEncoder
 
@@ -42,7 +42,7 @@ class ContactReason:
 
     @staticmethod
     def _build_model() -> BaseEstimator:
-        return TicketMessageSimilarityBasedClassifier()
+        return TicketMessageClassifier()
 
     @staticmethod
     def _build_processing_pipe() -> Pipeline:
