@@ -35,7 +35,7 @@ cr.save_predictions(preds)
 ```
 
 From CLI: 
-/!\ Make sure that you removed nones from the data set. You can run the above 2 python code.
+<br/><h4> /!\ Make sure that you removed nones from the data set. You can run the above 2 python code.</h4>
 ------------
     $ contact-reason train --data-dir ./data/ --output-dir ./artifacts --df-filename classification_dataset
 
