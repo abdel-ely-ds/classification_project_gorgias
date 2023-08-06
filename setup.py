@@ -8,6 +8,12 @@ TEST_DEPS = [
     "nox==2023.4.22",
 ]
 
+API_DEPS = [
+    "pydantic==2.1.1",
+    "fastapi==0.101.0",
+    "uvicorn"
+]
+
 with open("requirements.txt") as f:
     requirements = f.readlines()
 
@@ -25,6 +31,7 @@ setup(
     package_dir={"": "src"},
     entry_points={"console_scripts": ["contact-reason=gorgias_ml.cli.cli:main"]},
     install_requires=requirements,
-    tests_require=TEST_DEPS,
-    extras_require={"test": TEST_DEPS},
+    extras_require={"test": TEST_DEPS,
+                    "api": API_DEPS
+                    }
 )
