@@ -34,7 +34,7 @@ cr.save_artifacts()
 cr.save_predictions(preds)
 ```
 
-From CLI
+From CLI: 
 /!\ Make sure that you removed nones from the data set. You can run the above 2 python code.
 ------------
     $ contact-reason train --data-dir ./data/ --output-dir ./artifacts --df-filename classification_dataset
