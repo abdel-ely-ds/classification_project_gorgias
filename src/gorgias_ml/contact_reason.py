@@ -24,7 +24,11 @@ class ContactReason:
         self,
         model: BaseEstimator = None,
         processing_pipe: Pipeline = None,
+        centroid_approach: bool = False,
+        use_gpu: bool = False,
     ):
+        self.use_gpu = use_gpu
+        self.centroid_approach = centroid_approach
         self._model = self._build_model() if model is None else model
         self._processing_pipe = (
             self._build_processing_pipe()
@@ -40,9 +44,10 @@ class ContactReason:
     def model(self) -> BaseEstimator:
         return self._model
 
-    @staticmethod
-    def _build_model() -> BaseEstimator:
-        return TicketMessageClassifier()
+    def _build_model(self) -> BaseEstimator:
+        return TicketMessageClassifier(
+            centroid_approach=self.centroid_approach, use_gpu=self.use_gpu
+        )
 
     @staticmethod
     def _build_processing_pipe() -> Pipeline:
