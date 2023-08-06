@@ -9,7 +9,9 @@ Installation
 ------------
     $ git clone https://github.com/abdel-ely-ds/classification_project_gorgias.git
     $ cd classification_project_gorgias
-    $ pip install -e . or pip install .[api]
+    $ pip install -e .
+    $ pip install .[api] to run the service
+    $ pip install .[gpu] to use faiss gpu
     
 Usage
 ------------

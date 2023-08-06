@@ -10,6 +10,8 @@ TEST_DEPS = [
 
 API_DEPS = ["pydantic==2.1.1", "fastapi==0.101.0", "uvicorn"]
 
+GPU_DEPS = ["faiss-gpu"]
+
 with open("requirements.txt") as f:
     requirements = f.readlines()
 
@@ -27,5 +29,5 @@ setup(
     package_dir={"": "src"},
     entry_points={"console_scripts": ["contact-reason=gorgias_ml.cli.cli:main"]},
     install_requires=requirements,
-    extras_require={"test": TEST_DEPS, "api": API_DEPS},
+    extras_require={"test": TEST_DEPS, "api": API_DEPS, "gpu": GPU_DEPS},
 )

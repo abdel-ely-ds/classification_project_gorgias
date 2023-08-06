@@ -29,6 +29,7 @@ class TicketMessageClassifier(BaseEstimator):
         centroid_approach: bool = False,
         distance_metric: Distances = Distances.COSINE_SIMILARITY,
         k: int = 1,
+        use_gpu: bool = False,
         target_col_name: str = cst.TARGET,
         features_col_name: str = cst.FEATURES,
         prediction_col_name: str = cst.PREDICTION,
@@ -36,6 +37,7 @@ class TicketMessageClassifier(BaseEstimator):
         self.centroid_approach = centroid_approach
         self.distance_metric = distance_metric
         self.k = k
+        self.use_gpu = use_gpu
         self.target_col_name = target_col_name
         self.features_col_name = features_col_name
         self.prediction_col_name = prediction_col_name
@@ -57,7 +59,11 @@ class TicketMessageClassifier(BaseEstimator):
         all_embeddings = all_embeddings.astype("float32")
         if self.distance_metric == Distances.COSINE_SIMILARITY:
             faiss.normalize_L2(all_embeddings)
-            self._index = faiss.IndexFlatIP(all_embeddings.shape[1])
+            self._index = (
+                faiss.GpuIndexFlatIP(all_embeddings.shape[1])
+                if self.use_gpu
+                else faiss.IndexFlatIP(all_embeddings.shape[1])
+            )
 
         else:
             self._index = faiss.IndexFlatL2(all_embeddings.shape[1])
