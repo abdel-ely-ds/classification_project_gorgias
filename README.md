@@ -2,7 +2,9 @@
 
 ## Project Description
 
-The objective of the project is to predict contact reason for each customer inquery.
+The objective of the project is to predict contact reason for each customer inquery. Tried 2 approaches: centroids and vanilla knn.
+
+ ![Centroid Illustration](centroid_illustration.PNG)
 ## Getting Started
 
 Installation
