@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-contact_reason: ContactReason = None
+contact_reason = ContactReason()
 
 
 @app.on_event("startup")

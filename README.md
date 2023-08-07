@@ -17,17 +17,48 @@ Usage
 ------------
 
 ```python
+from sklearn.model_selection import train_test_split
 from gorgias_ml.contact_reason import ContactReason
 import pandas as pd
+import gorgias_ml.constants as cst
+from sklearn.metrics import precision_recall_fscore_support
 
-# Remove nones
+# Remove nones & duplicates
 df = pd.read_parquet("data/classification_dataset")
 df = df[~df.email_sentence_embeddings.isna()]
+df = df.drop_duplicates()
+
+
+x_train, x_val = train_test_split(df, random_state=2023, test_size=0.2)
 
 # Fit & predict
 cr = ContactReason()
 cr.fit(df)
-preds = cr.predict(df)
+train_preds = cr.predict(x_train)
+val_preds = cr.predict(x_val)
+
+# Eval
+train_truth = x_train[cst.TARGET]
+val_truth = x_val[cst.TARGET]
+precision, recall, f1_score, _ = precision_recall_fscore_support(train_truth, train_preds, average="weighted")
+
+print(
+    "-----------Training Scores-------------\n"
+    f"Weighted precision: {precision:.2f} \n"
+    f"Weighted recall: {recall:.2f} \n"
+    f"Weighted f1_score: {f1_score:.2f} \n"
+    "-------------------------------------------"
+)
+
+precision, recall, f1_score, _ = precision_recall_fscore_support(val_truth, val_preds, average="weighted")
+
+print(
+    "-----------Validation Scores-------------\n"
+    f"Weighted precision: {precision:.2f} \n"
+    f"Weighted recall: {recall:.2f} \n"
+    f"Weighted f1_score: {f1_score:.2f} \n"
+    "-------------------------------------------"
+)
 
 # Save
 cr.save_artifacts()

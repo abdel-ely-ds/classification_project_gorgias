@@ -8,7 +8,7 @@ from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
 import gorgias_ml.constants as cst
-from gorgias_ml.models.model import TicketMessageClassifier
+from gorgias_ml.models.model import TicketMessageClassifier, Distances
 from gorgias_ml.transfomers.cleaners import EmbeddingsCleaner
 from gorgias_ml.transfomers.encoders import TicketMessageAverageEncoder
 
@@ -26,7 +26,11 @@ class ContactReason:
         processing_pipe: Pipeline = None,
         centroid_approach: bool = False,
         use_gpu: bool = False,
+        distance_metric: Distances = Distances.COSINE_SIMILARITY,
+        k: int = 3,
     ):
+        self.distance_metric = distance_metric
+        self.k = k
         self.use_gpu = use_gpu
         self.centroid_approach = centroid_approach
         self._model = self._build_model() if model is None else model
@@ -46,7 +50,10 @@ class ContactReason:
 
     def _build_model(self) -> BaseEstimator:
         return TicketMessageClassifier(
-            centroid_approach=self.centroid_approach, use_gpu=self.use_gpu
+            centroid_approach=self.centroid_approach,
+            use_gpu=self.use_gpu,
+            k=self.k,
+            distance_metric=self.distance_metric,
         )
 
     @staticmethod

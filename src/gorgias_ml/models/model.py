@@ -28,7 +28,7 @@ class TicketMessageClassifier(BaseEstimator):
         self,
         centroid_approach: bool = False,
         distance_metric: Distances = Distances.COSINE_SIMILARITY,
-        k: int = 1,
+        k: int = 5,
         use_gpu: bool = False,
         target_col_name: str = cst.TARGET,
         features_col_name: str = cst.FEATURES,
