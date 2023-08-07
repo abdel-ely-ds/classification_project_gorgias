@@ -19,7 +19,7 @@ import gorgias_ml.constants as cst
     "--from-pipelines-dir", type=str, default=cst.PIPELINES_DIRECTORY, required=False
 )
 @click.option("--df-filename", type=str, required=True)
-@click.option("--score", type=bool, default=True, required=False)
+@click.option("--score", type=bool, default=False, required=False)
 def predict(
     data_dir: str,
     output_dir: str,
@@ -27,13 +27,12 @@ def predict(
     from_models_dir: str,
     from_pipelines_dir: str,
     df_filename: str,
-    score: bool = True,
+    score: bool = False,
 ) -> None:
     click.echo(f"Inference started...")
 
     contact_reason = ContactReason()
     df = pd.read_parquet(os.path.join(data_dir, df_filename))
-    df = df.sample(10000)
     contact_reason.load_artifacts(
         from_dir=from_dir,
         from_models_dir=from_models_dir,
