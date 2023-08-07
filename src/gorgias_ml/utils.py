@@ -11,4 +11,5 @@ def echo_results(precision, recall, f1_score):
 
 
 def score_model(truth, preds):
-    return precision_recall_fscore_support(truth, preds, average="weighted")
+    pr, rec, fs, _ = precision_recall_fscore_support(truth, preds, average="weighted")
+    return pr, rec, fs
