@@ -19,7 +19,7 @@ import gorgias_ml.utils as ut
     "--from-pipelines-dir", type=str, default=cst.PIPELINES_DIRECTORY, required=False
 )
 @click.option("--df-filename", type=str, required=True)
-@click.option("--score", type=bool, default=False, required=False)
+@click.option("--score", is_flag=True, default=False, required=False)
 def predict(
     data_dir: str,
     output_dir: str,

@@ -14,10 +14,10 @@ import gorgias_ml.utils as ut
 @click.option("--data-dir", type=str, required=True)
 @click.option("--output-dir", type=str, required=True)
 @click.option("--df-filename", type=str, required=True)
-@click.option("--use-gpu", type=bool, default=False, required=False)
-@click.option("--centroid-approach", type=bool, default=False, required=False)
-@click.option("--score", type=bool, default=True, required=False)
-@click.option("--split", type=bool, default=True, required=False)
+@click.option("--use-gpu", is_flag=True, default=False, required=False)
+@click.option("--centroid-approach", is_flag=True, default=False, required=False)
+@click.option("--score", is_flag=True, default=True, required=False)
+@click.option("--split", is_flag=True, default=True, required=False)
 @click.option("--k", type=int, default=3, required=False)
 @click.option(
     "--distance-metric", type=str, default="cosine_similarity", required=False
