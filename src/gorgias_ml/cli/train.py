@@ -7,7 +7,7 @@ from gorgias_ml.contact_reason import ContactReason
 import gorgias_ml.constants as cst
 from sklearn.model_selection import train_test_split
 from gorgias_ml.models.model import Distances
-import utils as ut
+import gorgias_ml.utils as ut
 
 
 @click.command()

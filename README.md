@@ -21,7 +21,7 @@ from sklearn.model_selection import train_test_split
 from gorgias_ml.contact_reason import ContactReason
 import pandas as pd
 import gorgias_ml.constants as cst
-import utils as ut
+import gorgias_ml.utils as ut
 
 # Remove nones & duplicates
 df = pd.read_parquet("data/classification_dataset")

@@ -5,7 +5,7 @@ import pandas as pd
 
 from gorgias_ml.contact_reason import ContactReason
 import gorgias_ml.constants as cst
-import utils as ut
+import gorgias_ml.utils as ut
 
 
 @click.command()
