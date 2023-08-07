@@ -4,10 +4,10 @@ import click
 import pandas as pd
 
 from gorgias_ml.contact_reason import ContactReason
-from sklearn.metrics import precision_recall_fscore_support
 import gorgias_ml.constants as cst
 from sklearn.model_selection import train_test_split
 from gorgias_ml.models.model import Distances
+import utils as ut
 
 
 @click.command()
@@ -56,29 +56,13 @@ def train(
     if score:
         train_preds = contact_reason.predict(x_train)[cst.PREDICTION]
         train_truth = x_train[cst.TARGET]
-        precision, recall, f1_score, _ = precision_recall_fscore_support(
-            train_truth, train_preds, average="weighted"
-        )
-        click.echo(
-            "-----------Training Scores-------------\n"
-            f"Weighted precision: {precision:.2f} \n"
-            f"Weighted recall: {recall:.2f} \n"
-            f"Weighted f1_score: {f1_score:.2f} \n"
-            "-------------------------------------------"
-        )
+        precision, recall, f1_score = ut.score_model(train_truth, train_preds)
+        ut.echo_results(precision, recall, f1_score)
 
         if x_val is not None:
             val_preds = contact_reason.predict(x_val)[cst.PREDICTION]
             val_truth = x_val[cst.TARGET]
-            precision, recall, f1_score, _ = precision_recall_fscore_support(
-                val_truth, val_preds, average="weighted"
-            )
-            click.echo(
-                "-----------Validation Scores--------------\n"
-                f"Weighted precision: {precision:.2f} \n"
-                f"Weighted recall: {recall:.2f} \n"
-                f"Weighted f1_score: {f1_score:.2f} \n"
-                "-------------------------------------------"
-            )
+            precision, recall, f1_score = ut.score_model(val_truth, val_preds)
+            ut.echo_results(precision, recall, f1_score)
 
     contact_reason.save_artifacts(output_dir=output_dir)

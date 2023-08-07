@@ -2,10 +2,10 @@ import os
 
 import click
 import pandas as pd
-from sklearn.metrics import precision_recall_fscore_support
 
 from gorgias_ml.contact_reason import ContactReason
 import gorgias_ml.constants as cst
+import utils as ut
 
 
 @click.command()
@@ -43,14 +43,7 @@ def predict(
     if score:
         test_preds = predictions[cst.PREDICTION]
         test_truth = df[cst.TARGET]
-        precision, recall, f1_score, _ = precision_recall_fscore_support(
-            test_truth, test_preds, average="weighted"
-        )
-
-        click.echo(
-            f"Weighted precision: {precision:.2f} \n"
-            f"Weighted recall: {recall:.2f} \n"
-            f"Weighted f1_score: {f1_score:.2f}"
-        )
+        precision, recall, f1_score = ut.score_model(test_truth, test_preds)
+        ut.echo_results(precision, recall, f1_score)
 
     contact_reason.save_predictions(predictions=predictions, output_dir=output_dir)
