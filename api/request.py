@@ -4,14 +4,15 @@ import ast
 
 import pandas as pd
 from pydantic import BaseModel, Field, field_validator
-
+import api.sample as sample
 import gorgias_ml.constants as cst
 
 
 class TicketMessageRequest(BaseModel):
     account_id: int = Field(description="account id of customer")
     email_sentence_embeddings: str = Field(
-        description="string representation of dict of embeddings"
+        default=sample.EMAIL_SENTENCE_EMBEDDINGS,
+        description="string representation of dict of embeddings",
     )
 
     @field_validator("email_sentence_embeddings")
@@ -29,7 +30,7 @@ class TicketMessageRequest(BaseModel):
     def to_dataframe(self) -> pd.DataFrame:
         return pd.DataFrame.from_dict(
             {
-                cst.ACCOUNT_ID: self.account_id,
-                cst.EMBEDDINGS_COL_NAME: self.email_sentence_embeddings,
+                cst.ACCOUNT_ID: [self.account_id],
+                cst.EMBEDDINGS_COL_NAME: [self.email_sentence_embeddings],
             }
         )
